@@ -893,6 +893,14 @@ _data = {
 	'en': "DMX format",
 	'ru': "Формат DMX-файла",
 },
+'bone_swap_forward_axis': {
+	'en': "Rotate Bone X-axis Forward",
+    'ru': "Поворот костей на ось Х Вперед (Сурс 2 прикол)",
+},
+'forward_parity': {
+	'en': "Forward Parity",
+	'ru': "Парность направления Вперед",
+},
 'ignore_materials': {
 	'ja': "Blenderのマテリアルを軽視",
 	'en': "Ignore Blender Materials",
@@ -919,6 +927,14 @@ _data = {
 'up_axis_tip': {
 	'en': "Use for compatibility with data from other 3D tools",
 	'ru': "Используется для совместимости с экспортами из Maya и других 3D-пакетов",
+},
+'bone_swap_forward_axis_tip': {
+	'en': "Rotates all bones so that the resulting X-axis faces the direction of the bone (Y-axis in Blender), per the Source engine convension. Used for better compatibility with some Source engine features",
+    'ru': "Поворот всех костей так, чтобы получаемая ось Х смотрела в сторону кости (ось Y в блендере), по коверсии движка сурс. Использованно для более лучшей совместимости с некоторыми возможностями движка.",
+},
+'forward_parity_tip': {
+	'en': "Which axis is forward on the model. The Source 2 tools will map this to the positive X-axis",
+	'ru': "Какая ось является осью ВПЕРЕД. Инструменты Сурс 2 настроят это на положительную ось Х",
 },
 'smd_format': {
 	'ja': "対象のエンジン",

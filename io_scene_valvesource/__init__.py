@@ -19,15 +19,15 @@
 # ##### END GPL LICENSE BLOCK #####
 
 bl_info = {
-	"name": "Blender Source Tools",
-	"author": "Tom Edwards (translators: Grigory Revzin)",
-	"version": (3, 3, 0),
-	"blender": (4, 1, 0),
-	"category": "Import-Export",
-	"location": "File > Import/Export, Scene properties",
-	"wiki_url": "http://steamcommunity.com/groups/BlenderSourceTools",
-	"tracker_url": "http://steamcommunity.com/groups/BlenderSourceTools/discussions/0/",
-	"description": "Importer and exporter for Valve Software's Source Engine. Supports SMD\VTA, DMX and QC."
+    "name": "Blender Source Tools: S&Box Fork",
+    "author": "Tom Edwards (translators: Grigory Revzin)",
+    "version": (3, 3, 1),
+    "blender": (4, 1, 0),
+    "category": "Import-Export",
+    "location": "File > Import/Export, Scene properties",
+    "wiki_url": "http://steamcommunity.com/groups/BlenderSourceTools",
+    "tracker_url": "http://steamcommunity.com/groups/BlenderSourceTools/discussions/0/",
+    "description": "Fork to export DMX with proper rotation for Valve's Source 2 and/or Facepunch engine."
 }
 
 import bpy, os
@@ -114,6 +114,8 @@ class ValveSource_SceneProps(PropertyGroup):
 	
 	export_format : EnumProperty(name=get_id("export_format"),items=( ('SMD', "SMD", "Studiomdl Data" ), ('DMX', "DMX", "Datamodel Exchange" ) ),default='DMX')
 	up_axis : EnumProperty(name=get_id("up_axis"),items=axes,default='Z',description=get_id("up_axis_tip"))
+	forward_parity : EnumProperty(name=get_id("forward_parity"),items=axes_signed,default='-Y',description=get_id("forward_parity_tip"))
+	bone_swap_forward_axis : BoolProperty(name=get_id("bone_swap_forward_axis"),default=False,description=get_id("bone_swap_forward_axis_tip"))
 	material_path : StringProperty(name=get_id("dmx_mat_path"),description=get_id("dmx_mat_path_tip"))
 	export_list_active : IntProperty(name=get_id("active_exportable"),default=0,min=0,update=export_active_changed)
 	export_list : CollectionProperty(type=ValveSource_Exportable,options={'SKIP_SAVE','HIDDEN'})

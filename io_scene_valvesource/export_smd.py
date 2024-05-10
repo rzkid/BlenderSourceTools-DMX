@@ -1326,8 +1326,8 @@ skeleton
 		if source2:
 			DmeAxisSystem = DmeModel["axisSystem"] = dm.add_element("axisSystem","DmeAxisSystem","AxisSys" + armature_name)
 			DmeAxisSystem["upAxis"] = axes_lookup_source2[bpy.context.scene.vs.up_axis]
-			DmeAxisSystem["forwardParity"] = 1 # ??
-			DmeAxisSystem["coordSys"] = 0 # ??
+			DmeAxisSystem["forwardParity"] = axes_lookup_source2_signed[bpy.context.scene.vs.forward_parity]
+			DmeAxisSystem["coordSys"] = 0 # ?? - Maybe global vs local coordinates
 		
 		DmeModel["transform"] = makeTransform("",Matrix(),DmeModel.name + "transform")
 
@@ -1369,9 +1369,19 @@ skeleton
 				cur_p = bone.parent
 				while cur_p and not cur_p in self.exportable_bones: cur_p = cur_p.parent
 				if cur_p:
-					relMat = cur_p.matrix.inverted() @ bone.matrix
+					pMat = cur_p.matrix
+
+					if bpy.context.scene.vs.bone_swap_forward_axis:
+						# Transform parent matrix to get correct orientation
+						pMat = pMat @ Matrix.Rotation(radians(90.0), 4, 'Z')
+
+					relMat = pMat.inverted() @ bone.matrix
 				else:
 					relMat = self.armature.matrix_world @ bone.matrix
+                    
+            # Rotate bone transform by 90 degrees by local Z axis to set X axis forward
+			if bpy.context.scene.vs.bone_swap_forward_axis:
+				relMat = relMat @ Matrix.Rotation(radians(90.0), 4, 'Z')
 			
 			trfm = makeTransform(bone_name,relMat,"bone"+bone_name)
 			trfm_base = makeTransform(bone_name,relMat,"bone_base"+bone_name)
@@ -2020,9 +2030,18 @@ skeleton
 					cur_p = bone.parent
 					while cur_p and not cur_p in evaluated_bones: cur_p = cur_p.parent
 					if cur_p:
-						relMat = cur_p.matrix.inverted() @ bone.matrix
+						pMat = cur_p.matrix
+
+						if bpy.context.scene.vs.bone_swap_forward_axis:
+							pMat = pMat @ Matrix.Rotation(radians(90.0), 4, 'Z')
+
+						relMat = pMat.inverted() @ bone.matrix
 					else:
 						relMat = self.armature.matrix_world @ bone.matrix
+                        
+                    # Rotate bone transform by 90 degrees by local Z axis to set X axis forward
+					if bpy.context.scene.vs.bone_swap_forward_axis:
+						relMat = relMat @ Matrix.Rotation(radians(90.0), 4, 'Z')
 					
 					pos = relMat.to_translation()
 					if bone.parent:

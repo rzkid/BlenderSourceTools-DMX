@@ -106,6 +106,10 @@ class SMD_PT_Scene(bpy.types.Panel):
 				col = l.column()
 				col.prop(scene.vs,"material_path")
 				col.prop(scene.vs,"dmx_weightlink_threshold",slider=True)
+				row = l.row().split(factor=0.33)
+				col.label(text=get_id("forward_parity") + ":")
+				col.row().prop(scene.vs,"forward_parity", expand=True)
+				col.prop(scene.vs,"bone_swap_forward_axis", expand=True)
 		else:
 			row = l.split(factor=0.33)
 			row.label(text=get_id("smd_format") + ":")
